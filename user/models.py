@@ -23,8 +23,9 @@ def avatar_upload_path(instance, filename):
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, username, password=None, email=None, first_name=None, 
-                    last_name=None, role="software_engineer", **extra_fields):
+
+    def create_user(self, username, password = None, email = None, first_name = None,
+                    last_name = None, role = "software_engineer", **extra_fields):
         """
         Create and save a regular user with the given username and password.
         """
@@ -34,7 +35,7 @@ class UserManager(BaseUserManager):
         # Normalize username to a consistent form (lowercase)
         username = self.normalize_username(username)
         email = self.normalize_email(email) if email else None  # BaseUserManager has normalize_email
-        
+
         extra_fields.setdefault('is_active', True)
         user = self.model(
             username=username,
@@ -51,7 +52,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, password=None, email=None, **extra_fields):
+
+    def create_superuser(self, username, password = None, email = None, **extra_fields):
         """
         Create and save a superuser with the given username and password.
         """
@@ -67,6 +69,7 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser must have a password.")
 
         return self.create_user(username, password, email=email, role="admin", **extra_fields)
+
 
     def normalize_username(self, username):
         """
@@ -99,7 +102,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
         db_index=True,  # Index for faster lookups
     )
-    
+
     email = models.EmailField(
         max_length=255,
         blank=True,
@@ -110,7 +113,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="Optional. Used for notifications and password resets.",
         db_index=True,  # Index for faster lookups
     )
-    
+
     # Personal information
     first_name = models.CharField(
         max_length=150,
@@ -118,14 +121,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True,
         verbose_name="First name",
     )
-    
+
     last_name = models.CharField(
         max_length=150,
         blank=True,
         null=True,
         verbose_name="Last name",
     )
-    
+
     role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES,
@@ -134,7 +137,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="User's role in the organization.",
         db_index=True,  # Index for role-based queries
     )
-    
+
     phone_number = models.CharField(
         max_length=20,
         blank=True,
@@ -142,7 +145,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name="Phone number",
         help_text="Optional phone number.",
     )
-    
+
     bio = models.TextField(
         max_length=500,
         blank=True,
@@ -150,7 +153,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name="Bio",
         help_text="Brief description about the user.",
     )
-    
+
     # Note: Requires Pillow to be installed for ImageField
     # Install with: pip install Pillow
     avatar = models.ImageField(
@@ -170,13 +173,13 @@ class User(AbstractBaseUser, PermissionsMixin):
                   "Unselect this instead of deleting accounts.",
         db_index=True,
     )
-    
+
     is_staff = models.BooleanField(
         default=False,
         verbose_name="Staff status",
         help_text="Designates whether the user can log into this admin site.",
     )
-    
+
     is_email_verified = models.BooleanField(
         default=False,
         verbose_name="Email verified",
@@ -190,13 +193,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="When the user account was created.",
         db_index=True,
     )
-    
+
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name="Last updated",
         help_text="When the user account was last modified.",
     )
-    
+
     last_activity = models.DateTimeField(
         blank=True,
         null=True,
@@ -208,6 +211,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []  # Email can be optional, but you can add it here if needed
+
 
     class Meta:
         verbose_name = "User"
@@ -223,8 +227,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         ]
         # Note: related_name for groups and permissions is set via PermissionsMixin
 
+
     def __str__(self):
         return self.username
+
 
     def get_full_name(self):
         """
@@ -233,11 +239,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         full_name = f"{self.first_name or ''} {self.last_name or ''}".strip()
         return full_name if full_name else self.username
 
+
     def get_short_name(self):
         """
         Return the short name for the user.
         """
         return self.first_name or self.username
+
 
     @property
     def full_name(self):
@@ -246,6 +254,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         return self.get_full_name()
 
+
     def clean(self):
         """
         Custom validation for the model.
@@ -253,6 +262,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         super().clean()
         if self.email:
             self.email = User.objects.normalize_email(self.email)
+
 
     def save(self, *args, **kwargs):
         """
