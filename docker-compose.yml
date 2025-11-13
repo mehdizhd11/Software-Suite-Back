@@ -42,8 +42,7 @@ services:
     restart: unless-stopped
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_SERVICEACCOUNTTOKEN=${KIBANA_TOKEN}
       - SERVERNAME=kibana
       - SERVER_PUBLICBASEURL=http://localhost:5601
     ports:
@@ -58,15 +57,9 @@ services:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: unless-stopped
-    hostname: ${GITLAB_HOSTNAME:-localhost}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://${GITLAB_HOSTNAME:-localhost}:${GITLAB_HTTP_PORT:-8080}'
-        gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT:-2222}
         gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
-        # Disable services we don't need
-        prometheus_monitoring['enable'] = false
-        grafana['enable'] = false
     ports:
       - "${GITLAB_HTTP_PORT:-8080}:80"
       - "${GITLAB_HTTPS_PORT:-8443}:443"
@@ -79,8 +72,8 @@ services:
       - software_suite
     shm_size: '256m'
 
-#  docker exec -i postgres_db psql -U postgres -c "CREATE DATABASE jira;"
-#  docker exec -i postgres_db psql -U postgres -c "CREATE DATABASE confluence;"
+  #  docker exec -i postgres_db psql -U postgres -c "CREATE DATABASE jira;"
+  #  docker exec -i postgres_db psql -U postgres -c "CREATE DATABASE confluence;"
 
   jira:
     image: atlassian/jira-software:latest

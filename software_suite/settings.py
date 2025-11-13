@@ -154,7 +154,8 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=24),
     'REFRESH_TOKEN_LIFETIME': timedelta(hours=96),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': False,  # Set to True and add 'rest_framework_simplejwt.token_blacklist' to INSTALLED_APPS if needed
+    'BLACKLIST_AFTER_ROTATION': False,
+    # Set to True and add 'rest_framework_simplejwt.token_blacklist' to INSTALLED_APPS if needed
 }
 
 SWAGGER_SETTINGS = {

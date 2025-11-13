@@ -8,7 +8,7 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    Serializer for User model (read operations).
+    Serializer for a User model (read operations).
     """
     full_name = serializers.CharField(source='get_full_name', read_only=True)
     

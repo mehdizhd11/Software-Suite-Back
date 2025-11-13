@@ -210,7 +210,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []  # Email can be optional, but you can add it here if needed
+    REQUIRED_FIELDS = []
 
 
     class Meta:
