@@ -1,0 +1,19 @@
+services:
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - jira_data:/var/atlassian/application-data/jira
+    networks:
+      - software_suite
+
+volumes:
+  jira_data:
+
+networks:
+  software_suite:
+    driver: bridge
+    external: true
