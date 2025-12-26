@@ -114,3 +114,5 @@ staticfiles/**/*
 # Database backups
 *.sql
 *.dump
+
+media

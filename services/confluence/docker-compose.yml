@@ -1,0 +1,20 @@
+services:
+  confluence:
+    image: atlassian/confluence-server:latest
+    container_name: confluence
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+      - "8091:8091"
+    volumes:
+      - confluence_data:/var/atlassian/application-data/confluence
+    networks:
+      - software_suite
+
+volumes:
+  confluence_data:
+
+networks:
+  software_suite:
+    external: true
+    driver: bridge
