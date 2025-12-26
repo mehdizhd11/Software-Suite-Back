@@ -1,0 +1,25 @@
+name: monitoring_suite
+
+services:
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: monitoring_suite_grafana
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/plugins:/var/lib/grafana/plugins
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
+    networks:
+      - software_suite
+    ports:
+      - 3030:3000
+
+volumes:
+  grafana_data:
+    driver: local
+
+networks:
+  software_suite:
+    driver: bridge
+    external: true

@@ -1,32 +1,9 @@
 services:
-  postgres:
-    image: postgres:16
-    container_name: postgres_db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - software_suite
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
   backend:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: software-suite-backend
-    depends_on:
-      postgres:
-        condition: service_healthy
     ports:
       - "8085:8085"
     environment:
@@ -38,14 +15,10 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_HOST: postgres
       DATABASE_PORT: ${DATABASE_PORT}
-      DJANGO_SUPERUSER_PHONE_NUMBER: ${DJANGO_SUPERUSER_PHONE_NUMBER}
-      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
     networks:
       - software_suite
-
-volumes:
-  postgres_data:
 
 networks:
   software_suite:
     driver: bridge
+    external: true
