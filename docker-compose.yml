@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: software-suite-backend
     ports:
-      - "8085:8085"
+      - 8085:8085
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DEBUG: ${DEBUG}

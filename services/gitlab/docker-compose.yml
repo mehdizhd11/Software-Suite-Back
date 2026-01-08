@@ -3,7 +3,7 @@ services:
     image: docker.arvancloud.ir/gitlab/gitlab-ce:latest
     container_name: gitlab
     ports:
-      - "8088:80"
+      - 8088:80
     environment:
       GITLAB_ROOT_EMAIL: ${GITLAB_ROOT_EMAIL}
       GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
