@@ -16,5 +16,5 @@ volumes:
 
 networks:
   software_suite:
-    external: true
     driver: bridge
+    external: true

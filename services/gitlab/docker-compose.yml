@@ -1,25 +1,20 @@
 services:
   gitlab:
-    image: gitlab/gitlab-ee:18.5-ee.0
+    image: 'docker.arvancloud.ir/gitlab/gitlab-ce:latest'
     container_name: gitlab
-    restart: always
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        # Add any other gitlab.rb configuration here, each on its own line
     ports:
-      - '80:80'
-      - '443:443'
-      - '22:22'
+      - "8088:80"
+    environment:
+      GITLAB_ROOT_EMAIL: ${GITLAB_ROOT_EMAIL}
+      GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
     volumes:
-      - ./config:/etc/gitlab
-      - gitlab_logs:/var/log/gitlab
+      - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
-    shm_size: '256m'
     networks:
       - software_suite
 
 volumes:
-  gitlab_logs:
+  gitlab_config:
   gitlab_data:
 
 networks:
