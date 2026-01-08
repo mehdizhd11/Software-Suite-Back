@@ -1,5 +1,5 @@
 """
-WSGI config for software_suite project.
+WSGI config for a software_suite project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
