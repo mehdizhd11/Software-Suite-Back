@@ -1,6 +1,6 @@
 services:
   gitlab:
-    image: 'docker.arvancloud.ir/gitlab/gitlab-ce:latest'
+    image: docker.arvancloud.ir/gitlab/gitlab-ce:latest
     container_name: gitlab
     ports:
       - "8088:80"

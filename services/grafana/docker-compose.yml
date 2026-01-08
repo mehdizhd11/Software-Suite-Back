@@ -1,6 +1,6 @@
 services:
   grafana:
-    image: grafana/grafana:11.0.0
+    image: docker.arvancloud.ir/grafana/grafana:11.0.0
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana

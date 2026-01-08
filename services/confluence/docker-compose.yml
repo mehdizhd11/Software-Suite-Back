@@ -1,6 +1,6 @@
 services:
   confluence:
-    image: atlassian/confluence-server:latest
+    image: docker.arvancloud.ir/atlassian/confluence-server:latest
     container_name: confluence
     restart: unless-stopped
     ports:
